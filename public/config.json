@@ -1,0 +1,21 @@
+{
+  "mode": "demonstration",
+  "payments": {
+    "enabled": false,
+    "provider": null,
+    "verifiedPaymentEndpoint": null
+  },
+  "brick": {
+    "amountMinor": null,
+    "currency": null
+  },
+  "diya": {
+    "currency": null,
+    "rates": []
+  },
+  "murti": {
+    "type": "sculptural-relief",
+    "asset": "murti-relief.glb",
+    "attribution": "Based on the user-supplied marble Shri Ram image; not a reconstructed 360-degree murti."
+  }
+}

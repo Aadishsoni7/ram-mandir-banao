@@ -1,0 +1,1 @@
+import {copyFile,stat} from 'node:fs/promises';await copyFile('public/experience.html','public/index.html');for(const p of ['public/temple-app.mjs','public/images/ram-sarayu-background.webp','server/temple-service.mjs','api/temple.mjs'])await stat(p);console.log('Temple assets and server ready');

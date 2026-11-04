@@ -1,0 +1,4 @@
+export const MAX_BASKET_UNITS=8;
+export function basketLines(counts,catalogue){return catalogue.bricks.map(p=>({...p,quantity:Number(counts?.[p.id]||0)})).filter(p=>p.quantity>0);}
+export function basketTotal(counts,catalogue){return basketLines(counts,catalogue).reduce((n,p)=>n+p.quantity*p.amountMinor,0);}
+export function expandBasket(counts,catalogue){for(const [id,q] of Object.entries(counts||{})){if(!catalogue.bricks.some(p=>p.id===id)||!Number.isInteger(q)||q<0||q>MAX_BASKET_UNITS)throw Error('Invalid basket quantity');if(id==='kalash'&&q>1)throw Error('Only one golden kalash is available');}const lines=basketLines(counts,catalogue),products=lines.flatMap(p=>Array(p.quantity).fill(p.id));if(!products.length||products.length>MAX_BASKET_UNITS)throw Error('Choose 1 to 8 units per contribution');return products;}

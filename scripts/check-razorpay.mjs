@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
+import {createRazorpayGateway,validSignature,assertCaptured,normalizeKeyId} from '../server/razorpay-gateway.mjs';
+const secret='local_fixture_secret_only',sign=s=>createHmac('sha256',secret).update(s).digest('hex');
+let checks=0;const check=fn=>{fn();checks++;};
+check(()=>assert.equal(normalizeKeyId('Key ID: "rzp_live_fixture"'),'rzp_live_fixture'));
+check(()=>assert.equal(normalizeKeyId('rzp_live_one rzp_live_two'),''));
+check(()=>assert.equal(normalizeKeyId('an unrelated value'),''));
+check(()=>assert.equal(createRazorpayGateway({keyId:'rzp_live_fixture',keySecret:'rzp_live_anotheridentifier'}).configured,false));
+check(()=>assert(validSignature('order_A|pay_B',sign('order_A|pay_B'),secret)));
+for(const signature of ['',null,'a'.repeat(63),'g'.repeat(64),sign('order_other|pay_B')])check(()=>assert.equal(validSignature('order_A|pay_B',signature,secret),false));
+const payment={id:'pay_B',order_id:'order_A',amount:20200,currency:'INR',status:'captured',captured:true,amount_refunded:0};
+check(()=>assert.equal(assertCaptured(payment,{orderId:'order_A',amount:20200}),payment));
+for(const diff of [{order_id:'order_other'},{amount:10100},{currency:'USD'},{status:'authorized'},{captured:false},{amount_refunded:1}])check(()=>assert.throws(()=>assertCaptured({...payment,...diff},{orderId:'order_A',amount:20200})));
+let calls=0;const gateway=createRazorpayGateway({keyId:'rzp_live_fixture',keySecret:secret,webhookSecret:secret,fetcher:async(url,options)=>{calls++;assert.equal(new URL(url).origin,'https://api.razorpay.com');assert(options.headers.Authorization.startsWith('Basic '));return Response.json(url.endsWith('/orders')?{id:'order_A',amount:JSON.parse(options.body).amount,currency:'INR',receipt:'basket_1'}:payment);}});
+assert.equal((await gateway.createOrder({amount:20200,receipt:'basket_1'})).id,'order_A');checks++;
+assert.equal((await gateway.verifyPayment({orderId:'order_A',paymentId:'pay_B',signature:sign('order_A|pay_B'),amount:20200})).id,'pay_B');checks++;
+const before=calls;await assert.rejects(gateway.verifyPayment({orderId:'order_A',paymentId:'pay_B',signature:sign('order_fake|pay_B'),amount:20200}));assert.equal(calls,before);checks++;
+for(const amount of [0,-1,1.2,NaN,100000001]){await assert.rejects(gateway.createOrder({amount,receipt:'basket_1'}));checks++;}
+check(()=>assert.equal(createRazorpayGateway({keyId:'rzp_test_fixture',keySecret:secret}).configured,false));
+await assert.rejects(createRazorpayGateway().createOrder({amount:10100,receipt:'basket_1'}));checks++;
+const raw=JSON.stringify({event:'payment.captured',payload:{}});check(()=>assert.equal(gateway.verifyWebhook(raw,sign(raw)).event,'payment.captured'));
+check(()=>assert.throws(()=>gateway.verifyWebhook(raw+' ',sign(raw))));
+await assert.rejects(createRazorpayGateway({keyId:'rzp_live_fixture',keySecret:secret,fetcher:async()=>new Response('private upstream details',{status:401})}).createOrder({amount:10100,receipt:'basket_1'}),e=>e.status===502&&!e.message.includes('private'));checks++;
+console.log(`PASS ${checks} Razorpay boundary checks — no external calls or real transactions`);

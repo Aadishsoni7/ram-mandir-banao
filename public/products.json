@@ -1,0 +1,23 @@
+{
+  "mode":"demo", "currency":"INR", "paymentEnabled":false,
+  "bricks":[
+    {"id":"carved","name":"Carved brick","amountMinor":9900,"count":1,"recommended":true},
+    {"id":"plain","name":"Plain brick","amountMinor":4900,"count":1},
+    {"id":"family","name":"Family set","amountMinor":24900,"count":3}
+  ],
+  "plants":[
+    {"id":"tulsi","name":"Tulsi","amountMinor":4900,"size":"small"},
+    {"id":"marigold","name":"Marigold","amountMinor":4900,"size":"small"},
+    {"id":"jasmine","name":"Jasmine","amountMinor":7900,"size":"small"},
+    {"id":"hibiscus","name":"Hibiscus","amountMinor":7900,"size":"small"},
+    {"id":"rose","name":"Rose","amountMinor":7900,"size":"small"},
+    {"id":"champa","name":"Champa","amountMinor":14900,"size":"large"},
+    {"id":"parijat","name":"Parijat","amountMinor":14900,"size":"large"},
+    {"id":"ashoka","name":"Ashoka","amountMinor":14900,"size":"large"}
+  ],
+  "diyas":[
+    {"id":"hour","name":"1 hour","amountMinor":1100,"durationSeconds":3600},
+    {"id":"six-hours","name":"6 hours","amountMinor":2100,"durationSeconds":21600},
+    {"id":"day","name":"24 hours","amountMinor":4900,"durationSeconds":86400}
+  ]
+}
