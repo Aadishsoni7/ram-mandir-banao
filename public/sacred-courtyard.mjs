@@ -13,8 +13,7 @@ export function createSacredCourtyard(scene){
   add(shrine,cyl,gold,[x,.98,z],[.27,.12,.27]);add(shrine,cyl,darkGold,[x,1.49,z],[.055,.95,.055]);
   for(const y of [1.21,1.74,1.99]){add(shrine,sphere,gold,[x,y,z],[.14,.065,.14]);add(shrine,cyl,gold,[x,y+.05,z],[.25,.035,.25]);}
   add(shrine,sphere,new T.MeshBasicMaterial({color:'#ffd78b'}),[x,2.17,z],[.035,.11,.035]);
-  const bx=side*.92;add(shrine,cyl,gold,[bx,1.76,-4.99],[.31,.027,.31]);
-  for(let j=0;j<28;j++){const a=j*2.4,rr=.21*Math.sqrt((j+1)/28);add(shrine,sphere,j%4?orange:rose,[bx+Math.cos(a)*rr,1.80,-4.99+Math.sin(a)*rr],[.035,.025,.035]);}
+  // Keep the five shared diya bowls unobstructed
   add(shrine,sphere,gold,[side*1.46,1.82,-6.10],[.15,.19,.15]);add(shrine,cyl,gold,[side*1.46,2.02,-6.10],[.09,.05,.09]);
   for(let j=0;j<5;j++)add(shrine,sphere,green,[side*1.46+Math.sin(j*1.3)*.095,2.08,-6.10+Math.cos(j*1.3)*.095],[.035,.09,.025],[0,j,.6]);
  }

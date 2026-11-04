@@ -1,4 +1,4 @@
-import {COW_ROUTE,safeCowStep} from './cow-boundary.mjs?v=31';
+import {COW_ROUTE,safeCowStep} from './cow-boundary.mjs?v=32';
 import * as T from 'three';import {GLTFLoader} from './vendor/GLTFLoader.js';
 export function createWildlife(scene,garden){
  const cows=[],targets=[];let assetPromise,started=false;function cloneAnimal(source){const copy=source.clone(true),original=[],clones=[];source.traverse(o=>original.push(o));copy.traverse(o=>clones.push(o));const map=new Map(original.map((o,i)=>[o,clones[i]]));for(const o of original){if(o.isSkinnedMesh){const twin=map.get(o);twin.skeleton=o.skeleton.clone();twin.skeleton.bones=o.skeleton.bones.map(b=>map.get(b));twin.bindMatrix.copy(o.bindMatrix);twin.bind(twin.skeleton,twin.bindMatrix);}}return copy;}let butterfly=null,quiet=false,reduced=false,night=0,secondScheduled=false;
