@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=32';
+import {ui} from './language.mjs?v=33';
 export function createFallbackWorld(manifest){
  const loading=document.getElementById('loading');loading.hidden=false;loading.className='flat-fallback';
  function shrine(){loading.innerHTML=`<img src='./images/ram-cutout.png' alt='श्रीराम का स्वीकृत चित्र'><p class='fallback-caption'>3D उपलब्ध नहीं है · सरल दर्शन दृश्य</p><button id='flatRetry'>3D फिर खोलें</button>`;loading.querySelector('button').onclick=()=>location.reload();}

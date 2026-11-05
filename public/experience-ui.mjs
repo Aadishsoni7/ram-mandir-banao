@@ -1,4 +1,4 @@
-import {ui,currentLanguage} from './language.mjs?v=32';
+import {ui,currentLanguage} from './language.mjs?v=33';
 export function createExperienceUI(world,journey){
  const $=id=>document.getElementById(id);document.body.dataset.sceneChapter='temple';
  const tooltip=document.createElement('div');tooltip.id='sceneTooltip';tooltip.className='scene-tooltip';tooltip.hidden=true;tooltip.setAttribute('aria-hidden','true');document.body.append(tooltip);
@@ -18,7 +18,7 @@ export function createExperienceUI(world,journey){
   if(button.hasAttribute('data-close-discovery'))closeDiscovery();
  });
  const sound=document.createElement('button');sound.type='button';sound.dataset.audioToggle='';sound.textContent='♪';sound.setAttribute('aria-label',ui('ध्वनि चालू करें','Turn sound on'));sound.setAttribute('aria-pressed','false');document.querySelector('.camera-tools').append(sound);
- document.addEventListener('temple-confirmed',event=>{const order=event.detail;if(!order||celebrated.has(order.id))return;celebrated.add(order.id);if(['diya','plant'].includes(order.kind))return;const box=$('dedicationCelebration');box.replaceChildren();const title=document.createElement('strong'),message=document.createElement('p');title.textContent=ui('आपका समर्पण सहेजा गया','Your dedication is saved');message.textContent=order.demo?ui('इस साझा आँगन में आपकी एक जगह डेमो में कोई भुगतान नहीं हुआ','A place for you in this shared courtyard No payment was taken in this demo'):ui('इस साझा आँगन में आपकी एक जगह','A place for you in this shared courtyard');box.append(title,message);box.hidden=false;clearTimeout(successTimer);successTimer=setTimeout(()=>box.hidden=true,3800);
+ document.addEventListener('temple-confirmed',event=>{const order=event.detail;if(!order||celebrated.has(order.id))return;celebrated.add(order.id);if(['brick','diya','plant'].includes(order.kind))return;const box=$('dedicationCelebration');box.replaceChildren();const title=document.createElement('strong'),message=document.createElement('p');title.textContent=ui('आपका समर्पण सहेजा गया','Your dedication is saved');message.textContent=order.demo?ui('इस साझा आँगन में आपकी एक जगह डेमो में कोई भुगतान नहीं हुआ','A place for you in this shared courtyard No payment was taken in this demo'):ui('इस साझा आँगन में आपकी एक जगह','A place for you in this shared courtyard');box.append(title,message);box.hidden=false;clearTimeout(successTimer);successTimer=setTimeout(()=>box.hidden=true,3800);
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches){for(let i=0;i<24;i++){const p=document.createElement('i');p.className='celebration-petal';p.setAttribute('aria-hidden','true');p.style.setProperty('--x',((i%2?-1:1)*(50+(i*37)%230))+'px');p.style.setProperty('--y',(180+(i*53)%260)+'px');p.style.setProperty('--r',((i*127)%720)+'deg');p.style.animationDelay=(i%5*.05)+'s';p.style.background=i%3?'#d7a048':'#a85c41';document.body.append(p);setTimeout(()=>p.remove(),2900);}}
   world.sound.chime?.().catch(()=>{});
  });

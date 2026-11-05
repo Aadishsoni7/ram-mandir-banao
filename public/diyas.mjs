@@ -1,4 +1,4 @@
-import {DIYA_KEY,DIYA_COUNT,DEMO_DURATIONS,readObject,diyaStatus,remainingSeconds,startDemo,clearDemo,formatRemaining,configuredPrice} from './state.mjs?v=32';
+import {DIYA_KEY,DIYA_COUNT,DEMO_DURATIONS,readObject,diyaStatus,remainingSeconds,startDemo,clearDemo,formatRemaining,configuredPrice} from './state.mjs?v=33';
 export function createDiyas({THREE,scene,showPanel,moveCamera}){
  const $=id=>document.getElementById(id),targets=[],lamps=[],clay=new THREE.MeshStandardMaterial({color:'#9a4d2d',roughness:.87}),brass=new THREE.MeshStandardMaterial({color:'#b58a48',metalness:.55,roughness:.4});let selected=0,records=readObject(localStorage,DIYA_KEY),lastSecond=-1,config={},allowed=[...DEMO_DURATIONS];
  const profile=[new THREE.Vector2(.025,0),new THREE.Vector2(.10,.015),new THREE.Vector2(.17,.075),new THREE.Vector2(.18,.10),new THREE.Vector2(.15,.11),new THREE.Vector2(.11,.06),new THREE.Vector2(.025,.035)];
