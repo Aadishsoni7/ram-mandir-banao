@@ -1,4 +1,4 @@
-import {ui,currentLanguage,toggleLanguage} from './language.mjs?v=33';
+import {ui,currentLanguage,toggleLanguage} from './language.mjs?v=34';
 export const TOUR_KEY='ram-mandir-first-visit-tour-v2';
 export function createGuidedTour(world,journey){
  const dialog=document.getElementById('contributionDialog'),root=document.createElement('div');root.className='guided-tour';root.hidden=true;root.dataset.i18nIgnore='';root.innerHTML=`<div class="tour-shade top"></div><div class="tour-shade left"></div><div class="tour-shade right"></div><div class="tour-shade bottom"></div><div class="tour-ring" aria-hidden="true"></div><section class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tourTitle" aria-describedby="tourDescription" aria-live="polite"><p class="tour-step"></p><h2 id="tourTitle"></h2><p id="tourDescription"></p><div class="tour-actions"><button type="button" data-tour-back></button><button type="button" data-tour-language></button><button type="button" data-tour-skip></button><button type="button" data-tour-next></button></div></section>`;document.body.append(root);

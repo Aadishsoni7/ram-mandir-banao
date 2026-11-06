@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {ui} from './language.mjs?v=33';
+import {ui} from './language.mjs?v=34';
 const formatter=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
 export function indianTime(epoch){const p=Object.fromEntries(formatter.formatToParts(new Date(epoch)).map(p=>[p.type,p.value]));return Number(p.hour)%24+Number(p.minute)/60+Number(p.second)/3600;}
 export function modeAt(epoch){const seconds=((Math.floor((epoch+19800000)/1000)%86400)+86400)%86400;return seconds>=21600&&seconds<64800?'day':'night';}

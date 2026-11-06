@@ -25,3 +25,10 @@ body[data-scene-chapter]:not([data-scene-chapter=temple]) .completed-banner,body
 body[data-mode="contribute"] .hero .hero-gradient,
 body[data-mode="inspect"] .hero .hero-gradient,
 body[data-mode="legacy"] .hero .hero-gradient { opacity: 0; }
+
+.dedication-share-card { margin: 12px 0 22px; padding: 14px; background: #fbf2dd; border: 1px solid #ddbe80; border-radius: 12px; text-align: center; }
+.dedication-share-card h3 { margin: 0 0 10px; color: #593c25; font-size: 1.1rem; }
+.dedication-card-image { display: block; width: auto; height: min(28svh, 238px); max-width: 100%; margin: 0 auto 12px; border-radius: 5px; }
+.dedication-card-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.dedication-card-actions button { min-height: 44px; }
+.dedication-share-card p:empty { display: none; }
