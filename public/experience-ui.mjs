@@ -1,4 +1,4 @@
-import {ui,currentLanguage} from './language.mjs?v=34';
+import {ui,currentLanguage} from './language.mjs?v=35';
 export function createExperienceUI(world,journey){
  const $=id=>document.getElementById(id);document.body.dataset.sceneChapter='temple';
  const tooltip=document.createElement('div');tooltip.id='sceneTooltip';tooltip.className='scene-tooltip';tooltip.hidden=true;tooltip.setAttribute('aria-hidden','true');document.body.append(tooltip);

@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=34';
+import {ui} from './language.mjs?v=35';
 
 const messages = {
   brick: ['मंदिर में मेरी ईंट', 'My brick in the temple'],
@@ -21,11 +21,22 @@ function drawCard(order, snapshot) {
   const ctx = canvas.getContext('2d');
   const gold = ctx.createLinearGradient(0, 0, 1080, 1920);
   gold.addColorStop(0, '#f9edc9');
-  gold.addColorStop(.5, '#dfbc75');
+  gold.addColorStop(.25, '#b98432');
+  gold.addColorStop(.47, '#fff2ba');
+  gold.addColorStop(.64, '#e0af4e');
+  gold.addColorStop(.83, '#a56b25');
   gold.addColorStop(1, '#fbefcb');
   ctx.fillStyle = gold;
   ctx.fillRect(0, 0, 1080, 1920);
-  ctx.strokeStyle = '#a67a36';
+  const foil = ctx.createLinearGradient(0, 0, 1080, 1920);
+  foil.addColorStop(0, '#fff6cf');
+  foil.addColorStop(.32, '#784718');
+  foil.addColorStop(.58, '#fff1a9');
+  foil.addColorStop(1, '#784718');
+  ctx.strokeStyle = foil;
+  ctx.lineWidth = 18;
+  ctx.strokeRect(27, 27, 1026, 1866);
+  ctx.strokeStyle = '#8e5e27';
   ctx.lineWidth = 4;
   ctx.strokeRect(40, 40, 1000, 1840);
   ctx.strokeRect(55, 55, 970, 1810);
@@ -87,7 +98,10 @@ export function mountDedicationCard(container, order, capture) {
   status.className = 'micro';
   status.setAttribute('role','status');
   actions.append(share, download);
-  section.append(heading, canvas, actions, status);
+  const reveal = document.createElement('div');
+  reveal.className = 'dedication-reveal';
+  reveal.append(canvas);
+  section.append(heading, reveal, actions, status);
   container.querySelector('#dialogTitle')?.after(section);
   const whatsapp = () => window.open('https://wa.me/?text='+encodeURIComponent(caption),'_blank','noopener,noreferrer');
   canvas.toBlob(blob => {

@@ -1,9 +1,9 @@
-import {createGuidedTour} from './guided-tour.mjs?v=34';
-import {createExperienceUI} from './experience-ui.mjs?v=34';
-import {setupLanguage} from './language.mjs?v=34';import {createJourney} from './journey-v5.mjs?v=34';import {createFallbackWorld} from './fallback.mjs?v=34';setupLanguage();const bootStarted=performance.now();
+import {createGuidedTour} from './guided-tour.mjs?v=35';
+import {createExperienceUI} from './experience-ui.mjs?v=35';
+import {setupLanguage} from './language.mjs?v=35';import {createJourney} from './journey-v5.mjs?v=35';import {createFallbackWorld} from './fallback.mjs?v=35';setupLanguage();const bootStarted=performance.now();
 document.getElementById('retryLoad').onclick=()=>location.reload();
 try{
  const [manifest,catalogue]=await Promise.all([fetch('./building-units.json').then(r=>{if(!r.ok)throw Error('units');return r.json();}),fetch('./products-v5.json').then(r=>{if(!r.ok)throw Error('catalogue');return r.json();})]);
- let world;try{if(document.body.dataset.forceFallback==='true')throw Error('Local fallback QA');const {createWorld}=await import('./temple-world.mjs?v=34');world=await createWorld(manifest,catalogue);document.getElementById('loading').hidden=true;document.body.dataset.ready='true';document.body.dataset.sceneBootMs=String(Math.round(performance.now()-bootStarted));}catch(error){console.warn('Interactive 3D unavailable; showing labelled accessible fallback.');world=createFallbackWorld(manifest);document.body.dataset.ready='fallback';}
+ let world;try{if(document.body.dataset.forceFallback==='true')throw Error('Local fallback QA');const {createWorld}=await import('./temple-world.mjs?v=35');world=await createWorld(manifest,catalogue);document.getElementById('loading').hidden=true;document.body.dataset.ready='true';document.body.dataset.sceneBootMs=String(Math.round(performance.now()-bootStarted));}catch(error){console.warn('Interactive 3D unavailable; showing labelled accessible fallback.');world=createFallbackWorld(manifest);document.body.dataset.ready='fallback';}
  document.body.dataset.edition=manifest.edition;const journey=await createJourney(world,manifest,catalogue);world.attachJourney(journey);createExperienceUI(world,journey);createGuidedTour(world,journey);document.body.dataset.controlsBootMs=String(Math.round(performance.now()-bootStarted));journey.ready?.then(()=>{document.body.dataset.recordsBootMs=String(Math.round(performance.now()-bootStarted));}).catch(()=>{document.body.dataset.recordsStatus='unavailable';});
 }catch(error){document.getElementById('loadError').textContent='आँगन अभी नहीं खुल सका। कनेक्शन जाँचें और फिर प्रयास करें। आपके रिकॉर्ड सुरक्षित हैं।';document.getElementById('retryLoad').hidden=false;console.error(error);}

@@ -1,10 +1,10 @@
-import {mountDedicationCard} from './dedication-card.mjs?v=34';
-import {celebrateOffering} from './offering-celebration.mjs?v=34';
-import {openRazorpayCheckout} from './razorpay-checkout.mjs?v=34';
-import {basketLines,basketTotal,expandBasket,MAX_BASKET_UNITS} from './basket.mjs?v=34';
-import {GROUPS,groupFor,unitsFor,readiness} from './construction-groups.mjs?v=34';
-import {ui,currentLanguage} from './language.mjs?v=34';
-import {createClient,readLocal,saveLocal,makeId,price,DRAFT} from './temple-client.mjs?v=34';
+import {mountDedicationCard} from './dedication-card.mjs?v=35';
+import {celebrateOffering} from './offering-celebration.mjs?v=35';
+import {openRazorpayCheckout} from './razorpay-checkout.mjs?v=35';
+import {basketLines,basketTotal,expandBasket,MAX_BASKET_UNITS} from './basket.mjs?v=35';
+import {GROUPS,groupFor,unitsFor,readiness} from './construction-groups.mjs?v=35';
+import {ui,currentLanguage} from './language.mjs?v=35';
+import {createClient,readLocal,saveLocal,makeId,price,DRAFT} from './temple-client.mjs?v=35';
 const esc=v=>String(v??'').replace(/[&<>']/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':c==='>'?'&gt;':'&#39;');
 const confirmed=o=>o&&['confirmed','placement_presented'].includes(o.state);
 export async function createJourney(world,manifest,catalogue){
