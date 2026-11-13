@@ -64,3 +64,204 @@ body[data-mode="legacy"] .hero .hero-gradient { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .dedication-reveal::before, .dedication-reveal .dedication-card-image { animation: none; }
 }
+
+.hero-copy {
+  background: #fff6e6;
+  color: #4a1216;
+  border: 1px solid #e9c9a8;
+  border-radius: 12px;
+  padding: clamp(16px, 2vw, 30px);
+  box-shadow: 0 14px 40px #4a121629;
+}
+.blueprint-actions { flex-direction: column-reverse; align-items: flex-start; }
+.blueprint-actions [data-action=darshan] {
+  background: #f5b830;
+  color: #4a1216;
+  border-color: #e3a31d;
+  font-weight: 700;
+}
+.blueprint-actions [data-action=contribute] {
+  background: transparent;
+  color: #85301f;
+  border-color: #b53b1f;
+}
+.camera-tools button {
+  width: auto;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 10px;
+  font-size: 14px;
+}
+#temple :focus-visible { outline: 3px solid #e5a813; outline-offset: 3px; }
+.invitation-panel summary { cursor: pointer; font-weight: 700; }
+.invitation-panel summary + label { display: block; margin-top: 12px; }
+@media (max-width: 760px) {
+  body[data-scene-chapter=temple]:not(.is-contributing) #stage { inset: 0 0 92px; }
+  body[data-scene-chapter=temple]:not(.is-contributing) .hero-copy {
+    position: absolute;
+    top: auto;
+    left: 4%;
+    right: 4%;
+    bottom: 115px;
+    width: auto;
+    max-width: none;
+    padding: 12px 15px;
+  }
+  .hero-copy .hero-note { display: none; }
+}
+
+.darshan-ribbon {
+  position: absolute;
+  z-index: 4;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  width: max-content;
+  max-width: 95%;
+  margin: 0;
+  padding: 4px;
+  background: #fff6e6;
+  border: 1px solid #e9c9a8;
+  border-radius: 24px;
+  list-style: none;
+  color: #4a1216;
+}
+.darshan-ribbon li { padding: 4px 10px; font-size: 14px; }
+.darshan-ribbon [aria-current=step] { background: #4a1216; color: #fff6e6; border-radius: 18px; }
+
+.visit-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(88%, 1120px);
+  margin: 0 auto;
+  padding: 20px 0;
+  list-style-position: inside;
+  border-bottom: 1px solid #dac6ac;
+  color: #4a1216;
+  font-size: 16px;
+  font-weight: 700;
+}
+.visit-steps li::marker { color: #8c3723; }
+.devotional-content .progress-section { padding-block: 22px; gap: 12px; }
+.progress-section p, .progress-numbers span { color: #583923; font-size: 14px; }
+#constructionProgress { height: 6px; accent-color: #9d422a; }
+.devotional-content .offerings-section { padding-top: 20px; }
+.offerings-section .section-heading { margin-bottom: 16px; text-align: left; }
+.offerings-section .offering-card { min-height: 0; }
+.offerings-section .offering-card p:not(.eyebrow) { font-size: 15px; color: #503628; }
+.offerings-section .offering-card .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 12px;
+  background: #4a1216;
+  color: #fff6e6;
+  border-radius: 6px;
+}
+.offerings-section .offering-card small { position: static; font-size: 14px; color: #583923; }
+@media (max-width: 760px) {
+  .visit-steps { grid-template-columns: 1fr; gap: 6px; padding-block: 14px; }
+  .offerings-section .offering-card { padding-block: 18px; }
+}
+
+.blueprint-actions { flex-direction: column; align-items: flex-start; gap: 7px; }
+.blueprint-actions .hero-offerings {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 14px;
+  background: #f5b830;
+  border: 1px solid #e3a31d;
+  border-radius: 6px;
+  color: #4a1216;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.blueprint-actions [data-action=darshan] {
+  min-height: 44px;
+  background: transparent;
+  color: #4a1216;
+  border-color: #b88c6d;
+}
+#temple .hero-offerings-duplicate { display: none; }
+#offerings { scroll-margin-top: 80px; }
+
+#constructionProgress {
+  display: block;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  margin-block: 12px 0;
+  border: 0;
+  border-radius: 1px;
+  overflow: hidden;
+  background: #e9d8c1;
+}
+#constructionProgress::-webkit-progress-bar { background: #e9d8c1; }
+#constructionProgress::-webkit-progress-value { background: #9a3c25; }
+#constructionProgress::-moz-progress-bar { background: #9a3c25; }
+#constructionProgress:not([value]) {
+  background: repeating-linear-gradient(135deg, #ead9c4 0 8px, #f3e6d6 8px 16px);
+}
+#constructionProgress:not([value])::-webkit-progress-bar { background: transparent; }
+#contributors .section-heading { margin-bottom: 10px; }
+#contributors .section-heading p { margin-block: 4px; }
+#contributors .contributor-list { margin-block: 0 12px !important; }
+#contributors .contribution-entry { min-height: 44px; padding: 0 !important; gap: 12px; }
+#contributors .contribution-entry h3 { flex: 1; font-size: 14px !important; }
+#contributors .contribution-entry a {
+  display: block;
+  min-height: 44px;
+  align-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #4a1216;
+}
+#contributors .paid-amount { flex: none; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.devotional-content .dedication-showcase { padding-block: 28px 42px; }
+.dedication-showcase .section-heading { margin-bottom: 14px; text-align: left; }
+.dedication-showcase .section-heading p { color: #583923; }
+.review-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(220px, 72%);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  margin: 0;
+  padding: 2px 2px 14px;
+  list-style: none;
+  scrollbar-color: #946446 #f2e6d5;
+}
+.review-track:focus-visible { outline: 3px solid #946446; outline-offset: 4px; }
+.review-example-card {
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  scroll-snap-align: start;
+  padding: clamp(14px, 3vw, 22px);
+  border: 1px solid #d8baa0;
+  border-radius: 6px;
+  background: #fff8ea;
+  color: #4a1216;
+}
+.review-example-card small { font-size: 13px; font-weight: 700; }
+.review-example-card strong { font-size: 15px; }
+
+.review-example-card strong {
+  font-family: Georgia, "Nirmala UI", serif;
+  font-size: clamp(19px, 3vw, 24px);
+  overflow-wrap: anywhere;
+}
+.dedication-card-footer { display: grid; gap: 5px; font-size: 14px; }
+.dedication-card-footer a { color: #73291d; width: fit-content; padding-block: 6px; }

@@ -1,11 +1,13 @@
-import {ui,currentLanguage,toggleLanguage} from './language.mjs?v=39';
+import {ui,currentLanguage,toggleLanguage} from './language.mjs?v=45';
 export function createGuidedTour(world,journey){
  const dialog=document.getElementById('contributionDialog'),root=document.createElement('div');root.className='guided-tour';root.hidden=true;root.dataset.i18nIgnore='';root.innerHTML=`<div class="tour-shade top"></div><div class="tour-shade left"></div><div class="tour-shade right"></div><div class="tour-shade bottom"></div><div class="tour-ring" aria-hidden="true"></div><section class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tourTitle" aria-describedby="tourDescription" aria-live="polite"><p class="tour-step"></p><h2 id="tourTitle"></h2><p id="tourDescription"></p><div class="tour-actions"><button type="button" data-tour-back></button><button type="button" data-tour-language></button><button type="button" data-tour-skip></button><button type="button" data-tour-next></button></div></section>`;document.body.append(root);
  const card=root.querySelector('.tour-card'),ring=root.querySelector('.tour-ring'),shades=Object.fromEntries(['top','left','right','bottom'].map(k=>[k,root.querySelector('.'+k)]));
  let active=false,step=0,target=null,frame=0,oldFocus=null,lastRect='';
  const steps=[
- ['.hero-copy','श्रीराम का साझा डिजिटल मंदिर','A digital Shri Ram temple we build together','मंदिर देखें और निःशुल्क दर्शन करें लाइव निर्माण में अब तक जुड़े खंड देखें','Explore the 3D temple and visit for free See what others have added in Live construction'],
- ['.offering-grid','अपना समर्पण चुनें','Make a dedication','अपने नाम की ईंट जोड़ें दीया जलाएँ या डिजिटल पौधा लगाएँ भुगतान के बाद अपना सुनहरा कार्ड पाएँ','Add a brick with your name, light a diya, or plant a digital tree After payment, save or share your gold card']
+ ['#stage','दर्शन','Darshan','श्रीराम के दर्शन के लिए दर्शन शुरू करें चुनें','Choose Free darshan to visit Shri Ram in the sanctum'],
+ ['.scene-journey','मंदिर में घूमें','Walk through the temple','नीचे से दर्शन बगीचा या आँगन चुनें','Choose a stop to move the camera to Darshan, Garden or Courtyard'],
+ ['.scene-view-switch','एक खंड चुनें','Choose a piece','अब तक का निर्माण चुनें और किसी खंड पर टैप करें','Switch to Built so far and tap a piece to see its shape and price'],
+ ['.hero-actions .hero-offerings','नाम और समर्पण','Name and offer','खंड चुनें अपना नाम लिखें और भुगतान से पहले कुल राशि देखें','Choose a piece and enter your name Review the total before making a digital offering']
  ];
  function chooseTarget(){return document.querySelector(steps[step][0])||document.querySelector('#offerings');}
  function place(el,x,y,w,h){Object.assign(el.style,{left:x+'px',top:y+'px',width:Math.max(0,w)+'px',height:Math.max(0,h)+'px'});}

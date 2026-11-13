@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {nameSurfaces} from './name-surfaces.mjs?v=39';
+import {nameSurfaces} from './name-surfaces.mjs?v=45';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 export function unitGeometry(unit){
  if(unit.kind==='wedge'){
