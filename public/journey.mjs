@@ -1,6 +1,6 @@
 import * as T from 'three';
-import {STORE,DRAFT,LEGACY,empty,read,money,active,cleanName,chooseSlots,reserve,release,completeDemo,transaction,event} from './contributions.mjs?v=38';
-import {GARDEN_SLOTS} from './living-garden.mjs?v=38';
+import {STORE,DRAFT,LEGACY,empty,read,money,active,cleanName,chooseSlots,reserve,release,completeDemo,transaction,event} from './contributions.mjs?v=39';
+import {GARDEN_SLOTS} from './living-garden.mjs?v=39';
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export async function createJourney(api){
  const {scene,camera,controls,stones,byId,garden,diya}=api,$=id=>document.getElementById(id),panel=$('context'),announcement=$('announcement');
