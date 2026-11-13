@@ -35,7 +35,7 @@ export default async function handler(req,res){
    const session=route==='payment-start'?await payments.start(input.ids,key):route==='payment-verify'?await payments.verify(input.sessionId,key,input):await payments.status(input.sessionId,key);
    res.status(200).json({session,serverTime:Date.now(),demo:false,paymentEnabled:gateway.configured});return;
   }
-  if(req.method==='POST'&&!gateway.configured){res.status(503).json({error:'Payments are being prepared Please return shortly'});return;}
+  if(req.method==='POST'&&route!=='redeem-invitation'&&!gateway.configured){res.status(503).json({error:'Payments are being prepared Please return shortly'});return;}
   const response=await templeService(new Request(url,{method:req.method,headers,...(body!==undefined?{body}:{})}),{DB,PAYMENTS:payments});
   res.statusCode=response.status;for(const [key,value] of response.headers)res.setHeader(key,value);res.end(Buffer.from(await response.arrayBuffer()));
  }catch(error){console.error('payment_handler_failure',JSON.stringify({code:String(error.code||'UNKNOWN'),status:error.status||503,message:String(error.message||'').replace(/rzp_[A-Za-z0-9_]+/g,'[key ID]').slice(0,240)}));res.status(error.status||503).json({error:error.status?error.message:'Payment or shared records are temporarily unavailable Keep your reference and retry verification',paymentEnabled:false});}

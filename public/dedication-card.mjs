@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=35';
+import {ui} from './language.mjs?v=36';
 
 const messages = {
   brick: ['मंदिर में मेरी ईंट', 'My brick in the temple'],
@@ -68,7 +68,7 @@ function drawCard(order, snapshot) {
 }
 
 export function mountDedicationCard(container, order, capture) {
-  if (order.paymentStatus !== 'paid' || order.demo || !messages[order.kind]) return;
+  if (!['paid','complimentary'].includes(order.paymentStatus) || order.demo || !messages[order.kind]) return;
   const url = new URL(location.pathname, location.origin);
   url.searchParams.set('place', order.id);
   const caption = ui('राम मंदिर बनाओ में मेरा समर्पण देखें','Come see my dedication at Ram Mandir Banao') + '\n' + url.href;

@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=35';
+import {ui} from './language.mjs?v=36';
 const shown=new Set();
 export async function celebrateOffering(order,world){
  if(!['brick','diya','plant'].includes(order.kind)||order.paymentStatus!=='paid'||order.demo||shown.has(order.id))return;

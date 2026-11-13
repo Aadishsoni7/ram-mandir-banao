@@ -1,3 +1,4 @@
+import {invitationHashes} from './invitation-hashes.mjs';
 import manifest from '../public/unit-manifest.mjs';
 import catalogue from '../public/products-v5.mjs';
 import {unitsFor} from '../public/construction-groups.mjs';
@@ -8,7 +9,7 @@ const publicHeaders={...headers,'Cache-Control':'public, max-age=0, must-revalid
 const json=(data,status=200)=>new Response(JSON.stringify({...data,serverTime:Date.now(),demo:false,paymentEnabled:true}),{status,headers});
 const issue=(message,status=400)=>{const error=new Error(message);error.status=status;throw error;};
 async function hash(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))].map(x=>x.toString(16).padStart(2,'0')).join('');}
-function publicOrder(o){if(!o)return null;return {id:o.id,edition:o.edition,kind:o.kind,product:o.product,unitId:o.unit_id?.startsWith(EDITION+':')?o.unit_id.slice(EDITION.length+1):o.unit_id,name:o.anonymous?'':o.name,anonymous:!!o.anonymous,amountMinor:o.amount_minor,currency:'INR',state:o.state,demo:false,paymentStatus:confirmed(o)?'paid':'pending',createdAt:o.created_at,updatedAt:o.updated_at,presentedAt:o.presented_at,startsAt:o.starts_at,endsAt:o.ends_at,durationSeconds:o.duration_seconds,position:o.position};}
+function publicOrder(o){if(!o)return null;return {id:o.id,edition:o.edition,kind:o.kind,product:o.product,unitId:o.unit_id?.startsWith(EDITION+':')?o.unit_id.slice(EDITION.length+1):o.unit_id,name:o.anonymous?'':o.name,anonymous:!!o.anonymous,amountMinor:o.amount_minor,currency:'INR',state:o.state,demo:false,paymentStatus:confirmed(o)?(o.payment_mode==='invitation'?'complimentary':'paid'):'pending',valueMinor:o.payment_mode==='invitation'?productFor(o.kind,o.product)?.amountMinor:undefined,createdAt:o.created_at,updatedAt:o.updated_at,presentedAt:o.presented_at,startsAt:o.starts_at,endsAt:o.ends_at,durationSeconds:o.duration_seconds,position:o.position};}
 async function identity(request){const key=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');if(!/^[a-f0-9]{64}$/.test(key))issue('Your recovery key is missing. Reload to create a browser recovery key.',401);return hash(key);}
 async function body(request){const raw=await request.text();if(raw.length>4096)issue('This request is too large.',413);try{return JSON.parse(raw);}catch{issue('The request could not be read.');}}
 function productFor(kind,id){const group=catalogue[kind==='brick'?'bricks':kind==='plant'?'plants':'diyas'];return group?.find(p=>p.id===id);}
@@ -38,6 +39,35 @@ export async function templeService(request,env){
  if(path==='mine'&&request.method==='GET'){const r=await db.prepare('SELECT * FROM temple_orders WHERE recovery_hash=? AND edition=? ORDER BY created_at DESC').bind(key,EDITION).all();return json({orders:await Promise.all((r.results||[]).map(async o=>({...publicOrder(o),paymentSession:await env.PAYMENTS.sessionForOrder(o.id)})))});}
  if(request.method!=='POST')issue('This action is unavailable.',405);
  const input=await body(request),now=Date.now();
+ if(path==='redeem-invitation'){
+  const code=String(input.code||'').trim().toUpperCase();
+  const digest=await hash(code);
+  if(!invitationHashes.has(digest))issue('This invitation code is invalid.',404);
+  const id='gift-'+digest.slice(0,32);
+  const existing=await db.prepare('SELECT * FROM temple_orders WHERE id=?').bind(id).first();
+  if(existing){
+   if(existing.recovery_hash!==key)issue('This invitation has already been redeemed.',409);
+   return json({order:publicOrder(existing)});
+  }
+  reserveId=id;
+  const product=productFor('brick',input.product);
+  if(!product||!['brick','pillar','roof','shikhara'].includes(product.id))issue('Choose one eligible construction piece.');
+  const name=String(input.name||'').normalize('NFC').trim();
+  if(!name||/[<>]/.test(name)||[...name].some(c=>c.charCodeAt(0)<32)||[...new Intl.Segmenter('hi',{granularity:'grapheme'}).segment(name)].length>36)issue('Enter a dedication name of up to 36 characters without markup.');
+  const candidates=unitsFor(manifest,product.id).map(unit=>EDITION+':'+unit.id);
+  for(let attempt=0;attempt<12;attempt++){
+   const used=await db.prepare('SELECT unit_id FROM temple_allocations WHERE confirmed_at>0 OR expires_at>?').bind(now).all();
+   const occupied=new Set((used.results||[]).map(row=>row.unit_id));
+   const unit=candidates.find(candidate=>!occupied.has(candidate));
+   if(!unit)issue('This shape is full. Choose another shape.',409);
+   const results=await db.batch([
+    db.prepare('INSERT INTO temple_allocations (unit_id,order_id,expires_at,confirmed_at) VALUES (?,?,?,?) ON CONFLICT(unit_id) DO UPDATE SET order_id=excluded.order_id,expires_at=excluded.expires_at,confirmed_at=excluded.confirmed_at WHERE temple_allocations.confirmed_at=0 AND temple_allocations.expires_at<=?').bind(unit,id,now,now,now),
+    db.prepare("INSERT INTO temple_orders (id,recovery_hash,edition,kind,product,unit_id,name,amount_minor,state,payment_mode,created_at,updated_at) SELECT ?,?,?,'brick',?,?,?,0,'confirmed','invitation',?,? WHERE EXISTS (SELECT 1 FROM temple_allocations WHERE unit_id=? AND order_id=?)").bind(id,key,EDITION,product.id,unit,name,now,now,unit,id)
+   ]);
+   if(results[1]?.meta?.changes>0)return json({order:publicOrder(await mineOrder(db,id,key))});
+  }
+  issue('A place could not be assigned yet. Please retry.',409);
+ }
  if(path==='reserve'){
   if(!/^[a-zA-Z0-9-]{16,80}$/.test(input.id||''))issue('Please start a new preview.');
   reserveId=input.id;
