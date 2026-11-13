@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=36';
+import {ui} from './language.mjs?v=37';
 
 const messages = {
   brick: ['मंदिर में मेरी ईंट', 'My brick in the temple'],
