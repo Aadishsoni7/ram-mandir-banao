@@ -1,4 +1,4 @@
-import {ui} from './language.mjs?v=37';
+import {ui} from './language.mjs?v=38';
 
 const messages = {
   brick: ['मंदिर में मेरी ईंट', 'My brick in the temple'],
@@ -21,10 +21,10 @@ function drawCard(order, snapshot) {
   const ctx = canvas.getContext('2d');
   const gold = ctx.createLinearGradient(0, 0, 1080, 1920);
   gold.addColorStop(0, '#f9edc9');
-  gold.addColorStop(.25, '#b98432');
-  gold.addColorStop(.47, '#fff2ba');
+  gold.addColorStop(.25, '#ba8530');
+  gold.addColorStop(.47, '#fff7d6');
   gold.addColorStop(.64, '#e0af4e');
-  gold.addColorStop(.83, '#a56b25');
+  gold.addColorStop(.83, '#b27829');
   gold.addColorStop(1, '#fbefcb');
   ctx.fillStyle = gold;
   ctx.fillRect(0, 0, 1080, 1920);
@@ -44,11 +44,18 @@ function drawCard(order, snapshot) {
   fittedText(ctx, ui('राम मंदिर बनाओ','RAM MANDIR BANAO'), 190, 900, 46, 700, '#553216');
   fittedText(ctx, ui('श्रीराम को समर्पित','A DEDICATION TO SHRI RAM'), 270, 870, 32, 600, '#734b25');
   if (snapshot?.width && snapshot?.height) {
-    const scale = Math.min(920 / snapshot.width, 780 / snapshot.height);
+    const scale = Math.max(920 / snapshot.width, 780 / snapshot.height);
     const w = snapshot.width * scale, h = snapshot.height * scale;
-    ctx.fillStyle = '#39241b';
-    ctx.fillRect(80, 345, 920, 780);
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(80, 345, 920, 780);
+    ctx.clip();
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(snapshot, (1080-w)/2, 345+(780-h)/2, w, h);
+    ctx.restore();
+    ctx.strokeStyle = '#84521f';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(80, 345, 920, 780);
   } else {
     ctx.fillStyle = '#3b261b';
     ctx.fillRect(80, 345, 920, 780);
@@ -62,6 +69,7 @@ function drawCard(order, snapshot) {
     dateStyle:'long', timeZone:'Asia/Kolkata'
   }).format(new Date(order.confirmedAt || order.createdAt || Date.now()));
   fittedText(ctx, date, 1510, 900, 36, 400, '#734b25');
+  fittedText(ctx, ui('एक छोटा सा अर्पण, श्रीराम के नाम','A small offering in Shri Ram’s name'), 1590, 870, 37, 600, '#553216');
   fittedText(ctx, ui('मेरे समर्पण को देखें','Visit my dedication'), 1675, 880, 43, 700, '#553216');
   fittedText(ctx, 'rammandirbanao.tech', 1760, 890, 39, 400, '#734b25');
   return canvas;

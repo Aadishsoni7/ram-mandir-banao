@@ -1,10 +1,10 @@
-import {nextFrameStamp} from './frame-budget.mjs?v=37';
-import {createSacredCourtyard} from './sacred-courtyard.mjs?v=37';
-import * as T from 'three';import {ui} from './language.mjs?v=37';import {OrbitControls} from './vendor/OrbitControls.js';import {GLTFLoader} from './vendor/GLTFLoader.js';
-import {createConstruction,unitGeometry} from './construction.mjs?v=37';import {createAtmosphere} from './atmosphere.mjs?v=37';import {createGarden,GARDEN_SLOTS} from './living-garden-v5.mjs?v=37';import {createDiyas} from './personal-diyas-v5.mjs?v=37';import {createWildlife} from './wildlife.mjs?v=37';import {createSound} from './temple-sound.mjs?v=37';
-import {createCourtyard,createSanctumScreen} from './courtyard.mjs?v=37';
-import {createDevotees} from './devotees.mjs?v=37';
-import {bindTemplePicking} from './temple-picking.mjs?v=37';
+import {nextFrameStamp} from './frame-budget.mjs?v=38';
+import {createSacredCourtyard} from './sacred-courtyard.mjs?v=38';
+import * as T from 'three';import {ui} from './language.mjs?v=38';import {OrbitControls} from './vendor/OrbitControls.js';import {GLTFLoader} from './vendor/GLTFLoader.js';
+import {createConstruction,unitGeometry} from './construction.mjs?v=38';import {createAtmosphere} from './atmosphere.mjs?v=38';import {createGarden,GARDEN_SLOTS} from './living-garden-v5.mjs?v=38';import {createDiyas} from './personal-diyas-v5.mjs?v=38';import {createWildlife} from './wildlife.mjs?v=38';import {createSound} from './temple-sound.mjs?v=38';
+import {createCourtyard,createSanctumScreen} from './courtyard.mjs?v=38';
+import {createDevotees} from './devotees.mjs?v=38';
+import {bindTemplePicking} from './temple-picking.mjs?v=38';
 const clamp=T.MathUtils.clamp;
 export async function createWorld(manifest,catalogue){
  const $=id=>document.getElementById(id),stage=$('stage'),canvas=$('scene'),scene=new T.Scene();const renderer=new T.WebGLRenderer({canvas,antialias:innerWidth>=760,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.25:1.6));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;let lastShadow=-1000;

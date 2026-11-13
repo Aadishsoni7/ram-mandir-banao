@@ -64,3 +64,20 @@ body[data-mode="legacy"] .hero .hero-gradient { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .dedication-reveal::before, .dedication-reveal .dedication-card-image { animation: none; }
 }
+
+.temple-dedication-names:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+.temple-dedication-names a {
+  background: #492715;
+  border: 1px solid #dfb76f;
+  border-radius: 6px;
+  color: #fff7df;
+  padding: 7px 11px;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
